@@ -86,7 +86,7 @@ def copy_named_conf(named_file):
     # 备份
     backup_file('named', named_path)
     status, output = commands.getstatusoutput(
-        'cp %s %s && chown named:named %s' % (named_file, named_path, named_path))
+        'cp %s %s && chown bind:bind %s' % (named_file, named_path, named_path))
     if status == 0:
         log.info('update name.conf ok')
     else:
