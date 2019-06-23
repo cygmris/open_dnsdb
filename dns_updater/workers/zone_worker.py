@@ -9,9 +9,9 @@ ZONE_DIR = CONF.bind_conf.zone_dir
 
 def _copy_named_files():
     zone_dir = ZONE_DIR
-    tmp = os.path.join(TMP_DIR, 'var/named')
+    tmp = os.path.join(TMP_DIR, 'var/bind')
     make_dir(tmp)
-    if os.system("cp -Rf %s/* %s/var/named/ >/dev/null 2>&1" % (zone_dir, TMP_DIR)) != 0:
+    if os.system("cp -Rf %s/* %s/var/bind/ >/dev/null 2>&1" % (zone_dir, TMP_DIR)) != 0:
         raise UpdaterErr("Failed to copy zone files to tmp_dir.")
     log.info("Copied named's files to %s.", TMP_DIR)
 
@@ -35,7 +35,7 @@ def _get_modified_PTR_zones(mkrdns_output, zone_file_dict):
         log.info("No PTR zone needs to be reloaded.")
         return
     for buf in io.StringIO(output):
-        ptn = re.match('^Updating file "(%s/var/named/[^"]*)".*' %
+        ptn = re.match('^Updating file "(%s/var/bind/[^"]*)".*' %
                        TMP_DIR, buf)
         if ptn is not None:
             zone_file = ptn.group(1)

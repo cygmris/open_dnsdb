@@ -18,7 +18,7 @@ def _make_zone_file_from_dnsdb(zone):
 
     isp_file_dict = {}
     for isp,  record_list in record_dict.items():
-        tmp_dir = os.path.join(CONF.etc.tmp_dir, 'var/named', isp)
+        tmp_dir = os.path.join(CONF.etc.tmp_dir, 'var/bind', isp)
         make_dir(tmp_dir)
         tmp_zonefile_path = os.path.join(tmp_dir, zone)
         make_zone_file(zone, tmp_zonefile_path, serial, header, record_list)

@@ -200,7 +200,7 @@ def send_alarm_email(content):
 
 
 def _make_tmp_zone_filepath(name):
-    return os.path.join(CONF.etc.tmp_dir, 'var/named', name)
+    return os.path.join(CONF.etc.tmp_dir, 'var/bind', name)
 
 
 def make_zone_file(zone, filename, serial, header, record_list):

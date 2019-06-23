@@ -40,10 +40,9 @@ RUN pip3 install supervisor
            
 RUN pip3 install virtualenv
 
-RUN rndc-confgen -a
+RUN rndc-confgen -a && \
+    chmod 660 /etc/bind/rndc.key
 
-COPY ./requirements.txt /tmp/
-RUN pip3 install -r /tmp/requirements.txt
 
 RUN mkdir -p /usr/local/open_dnsdb && \
     mkdir -p /var/log/open_dnsdb && \
@@ -61,20 +60,20 @@ RUN chmod 755 /start.sh
 
 WORKDIR /usr/local/open_dnsdb
 
-RUN python3 tools/install_venv.py -p /usr/bin/python3.6 && \
-    source .venv/bin/activate && \
-    tools/with_venv.sh python setup.py install
-
-# RUN touch /usr/local/open_dnsdb/dnsdb.db
 ENV FLASK_APP=dnsdb_command.py
 ENV FLASK_ENV=beta
-RUN flask deploy
 
+RUN python3 tools/install_venv.py -p /usr/bin/python3.6 && \
+    source .venv/bin/activate && \
+    tools/with_venv.sh python setup.py install&& \
+    flask deploy
 
 # permission issue is the last thing to deal with. 
 RUN addgroup -g 505 bind &&\
     adduser -h /etc/bind -D -u 505 -g bind -G bind -s /sbin/nologin bind &&\
     chgrp -R bind /etc/bind /var/bind /var/run/named /var/bind/dyn /var/bind/pri /var/bind/sec
+RUN chmod +x tools/updater/pre_updater_start.sh &&\
+    tools/updater/pre_updater_start.sh
 
 
 VOLUME "/usr/local/open_dnsdb"
