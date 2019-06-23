@@ -1,0 +1,21 @@
+version: '3.1'
+services:
+  dnsdb:
+    # build: docker-open-dnsdb
+    image: cygmris/bind9-open-dnsdb
+    container_name: open-dnsdb
+    restart: always
+    ports:
+      - "53:53"
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      # - ./:/usr/local/open_dnsdb
+    environment:
+      - FLASK_APP=dnsdb_command.py
+      - FLASK_ENV=beta
+      - PUID=1000
+      - PGID=1000
+
