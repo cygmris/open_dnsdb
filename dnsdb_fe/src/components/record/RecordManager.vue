@@ -220,6 +220,7 @@
     },
 
     mounted () {
+      this.listDomainRecords()
       this.fetchRegionNames()
       this.fetchZonesTTL()
     },
@@ -242,7 +243,15 @@
           }
         })
       },
-
+      listDomainRecords () {
+        util.get(this, {
+          url: '/web/record/get/domain_records',
+          succ: (data) => {
+            console.log(data.data)
+            this.recordList = data.data
+          }
+        })
+      },
       searchGeneral () {
         // 默认按ip搜索
         let param = {record: this.searchCondition}
@@ -371,6 +380,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
+          this.searchCondition = this.editName
           util.post(this, {
             url: '/web/record/modify_record',
             data: {domain_name: this.editName, origin_record: this.originRecord.record, update_dict: update},

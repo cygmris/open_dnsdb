@@ -130,6 +130,8 @@ def delete_record(domain_name, record, record_type):
                dict(name='domain_name', type=str, required=False, nullable=False)])
 @resp_wrapper_json
 def get_domain_records(**kwargs):
+    return ZoneRecordDal.get_domain_records(**kwargs)
+
     if 'record' in kwargs:
         key = 'record'
         # return ZoneRecordDal.get_domain_records(**kwargs)

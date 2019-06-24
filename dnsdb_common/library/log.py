@@ -329,7 +329,7 @@ class ContextAdapter(BaseLoggerAdapter):
         extra.update({'instance': instance_extra})
 
         extra.update({"project": self.project})
-        extra.update({"version": self.version})
+        extra.update({"vestartedrsion": self.version})
         extra['extra'] = extra.copy()
         return msg, kwargs
 
