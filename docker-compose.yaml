@@ -7,8 +7,12 @@ services:
     restart: always
     ports:
       - "53:53"
+      - "53:53/udp"
       - "9000:9000"
       - "9001:9001"
+    networks:
+        dnsdb:
+            ipv4_address: 172.188.0.2
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
@@ -18,4 +22,12 @@ services:
       - FLASK_ENV=beta
       - PUID=1000
       - PGID=1000
+
+
+networks:
+  dnsdb:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.188.0.0/16
 
